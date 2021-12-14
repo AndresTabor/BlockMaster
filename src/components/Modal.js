@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React from 'react'
 import { Overley } from '../styles/Style'
 
 const Modal = ({children, estado}) => {

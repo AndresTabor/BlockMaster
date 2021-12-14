@@ -28,7 +28,7 @@ const BarraNav = ({seccion,estadoSearch}) => {
                     
                     <Link to="/" className="nav-link">
                         <img src="https://res.cloudinary.com/andrestaborda/image/upload/v1638995924/BlockMasterLogo_1_avst1e.svg"
-                        width="106px"/>
+                        width="106px" alt=''/>
                     </Link> 
                     <Categorias className="nav-item ">
                         <NavLink

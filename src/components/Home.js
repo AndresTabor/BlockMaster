@@ -2,7 +2,7 @@
 import { apiKey2, appiUrl } from '../helpers/UrlsApi'
 import {urlBase} from '../helpers/UrlsApi'
 import Modal from './Modal';
-import { ContenedorModal, DataMovie, ModalBtnCerrar, ModalBtnContainer, ModalButtons, MoviesContainer,  } from '../styles/Style'
+import { ContenedorModal, DataMovie, ModalBtnCerrar, ModalBtnContainer, ModalButtons  } from '../styles/Style'
 import styled from 'styled-components';
 ////////
 import React, { useEffect, useState } from 'react'
@@ -27,6 +27,7 @@ export default function ApiFetch({showCategory, searchMovie }) {
 
         getData()
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchMovie])
 
 
@@ -34,6 +35,7 @@ export default function ApiFetch({showCategory, searchMovie }) {
 
         getScroll()
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page])
 
     useEffect(() => {
@@ -84,10 +86,12 @@ export default function ApiFetch({showCategory, searchMovie }) {
             let duracion;
             if (runtime > 60) {
                 duracion = Number(runtime)-60
+                // eslint-disable-next-line no-useless-concat
                 duracion = "1h"+' '+String(duracion)+"min"
                             
             }else{
                 duracion = Number(runtime)
+                // eslint-disable-next-line no-useless-concat
                 duracion = "0h"+' '+String(duracion)+"min"
                             
                 }
@@ -127,6 +131,7 @@ export default function ApiFetch({showCategory, searchMovie }) {
             <div>
                 {
 
+                    // eslint-disable-next-line eqeqeq
                     showCategory == 'Todas las peliculas' ?
                         movies.map(data => (
                             <Cards
@@ -135,6 +140,7 @@ export default function ApiFetch({showCategory, searchMovie }) {
                                 mostrar={mostrarModal}
                                 
                             />
+                        // eslint-disable-next-line eqeqeq
                         )) : showCategory == 'Peliculas más valoradas' ?
                             movies.filter(vote => vote.vote_average >= 7).map(data => (
                                 <Cards
@@ -142,6 +148,7 @@ export default function ApiFetch({showCategory, searchMovie }) {
                                     movie={data}
                                     mostrar={mostrarModal}
                                 />
+                            // eslint-disable-next-line eqeqeq
                             )) : showCategory == 'Peliculas menos valoradas' ?
                                 movies.filter(voto => voto.vote_average < 7).map(data => (
                                     <Cards
