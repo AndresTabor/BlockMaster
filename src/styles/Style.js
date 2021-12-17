@@ -177,7 +177,7 @@ export const ProfileContect = styled.div`
         display:none;
         position:absolute;
         right:25px;
-        top:80px;
+        top:75px;
         border-radius:5px;
         z-index:1;
     }

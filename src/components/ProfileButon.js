@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 import { ProfileContect } from '../styles/Style'
 
 const ProfileButon = () => {
+    const {setLogged} = useContext(AuthContext)
 
+
+    const logout = () =>{
+        setLogged(false)
+    }
 
     return (
         <ProfileContect>
@@ -18,7 +24,7 @@ const ProfileButon = () => {
                     <li>
                         <Link to="/Profile" className="nav-link text-light align-self-center">Profile</Link> 
                     </li>
-                    <button>Logout</button>
+                    <button onClick={logout}>Logout</button>
                 </ul>     
             </ul>
             
