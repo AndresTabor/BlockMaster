@@ -1,79 +1,19 @@
-// import React, { Component } from 'react'
-import { apiKey2, appiUrl } from '../helpers/UrlsApi'
-import {urlBase} from '../helpers/UrlsApi'
+import React, { useContext, useState } from 'react'
 import Modal from './Modal';
-import { ContenedorModal, DataMovie, ModalBtnCerrar, ModalBtnContainer, ModalButtons  } from '../styles/Style'
-import styled from 'styled-components';
-import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { AuthContext } from '../context/AuthContext'
+import { apiKey2, urlBase } from '../helpers/UrlsApi'
 import Cards from './Cards'
-import Carrusel from './Carrusel';
+import { ContenedorModal, DataMovie, ModalBtnCerrar, ModalBtnContainer, ModalButtons } from '../styles/Style';
 
+const ShowLater = () => {
 
-export default function Home({showCategory, searchMovie }) {
+    const {currentUser} = useContext(AuthContext)
 
-    let url = ''
-    const [movies, setMovies] = useState([])
-    const [page, setPage] = useState(1)
-    const [estado, setEstado] = useState(false)
     const [showInfo, setInfo] = useState({})
 
-    if (searchMovie.length > 0) {
-        url = `https://api.themoviedb.org/3/search/movie?api_key=fa031f96936e4b36067a690a2e64116c&language=en-US&query=${searchMovie}&api_key=0ca79cfff3d14page=1&include_adult=false`
-    } else {
-        url = appiUrl
-    }
+    const [estado, setEstado] = useState(false)
 
-    useEffect(() => {
-
-        getData()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchMovie])
-
-
-    useEffect(() => {
-
-        getScroll()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page])
-
-    useEffect(() => {
- 
-
-    }, [estado])
-
-    const getData = async () => {
-        const res = await fetch(url)
-        const data = await res.json()
-        setMovies(data.results)    
-    }
-
-
-    const getScroll = async () => {
-        const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=0ca79cfff3d14ef15bb56bac5dad90f8&page=${page}&language=es-LA`)
-        const data = await res.json()
-        setMovies([...movies, ...data.results])
-        
-    }
-
-
-    const scrollToEnd = () => {
-        setPage(page + 1)
-    }
-
-    window.onscroll = function () {
-        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-            scrollToEnd()
-        }
-    }
-
-    const closeModal =() =>{
-        setEstado(false);
-    }
-    
-
-    
     const mostrarModal = async(key) =>{
 
         setEstado(true)
@@ -121,45 +61,23 @@ export default function Home({showCategory, searchMovie }) {
         border-radius:10px;
     
     `
-
-
-
+    const closeModal =() =>{
+        setEstado(false);
+    }
 
     return (
         <div>
-            <Carrusel/>
-            <h1 className='text-light mx-3'>{showCategory}</h1>
-            <div>
-                {
-
-                    // eslint-disable-next-line eqeqeq
-                    showCategory == 'Todas las peliculas' ?
-                        movies.map(data => (
-                            <Cards
-                                key={data.id}
-                                movie={data}
-                                mostrar={mostrarModal}
-                                
-                            />
-                        // eslint-disable-next-line eqeqeq
-                        )) : showCategory == 'Peliculas más valoradas' ?
-                            movies.filter(vote => vote.vote_average >= 7).map(data => (
-                                <Cards
-                                    key={data.id}
-                                    movie={data}
-                                    mostrar={mostrarModal}
-                                />
-                            // eslint-disable-next-line eqeqeq
-                            )) : showCategory == 'Peliculas menos valoradas' ?
-                                movies.filter(voto => voto.vote_average < 7).map(data => (
-                                    <Cards
-                                        key={data.id}
-                                        movie={data}
-                                        mostrar={mostrarModal}
-                                    />
-                                )) : console.log('no existe')
-                }
-            </div>
+            {
+                currentUser.verDespues.map(data => (
+                    <Cards
+                        key={data.id}
+                        movie={data}
+                        mostrar={mostrarModal}
+                        
+                    />
+                // eslint-disable-next-line eqeqeq
+                ))
+            }
             <Modal estado = {estado}>
                 <ContenedorModal>
                     <ModalBtnCerrar onClick={closeModal}>
@@ -197,8 +115,8 @@ export default function Home({showCategory, searchMovie }) {
                     </DataMovie>
                 </ContenedorModal>
             </Modal> 
-
-                    
         </div>
     )
 }
+
+export default ShowLater

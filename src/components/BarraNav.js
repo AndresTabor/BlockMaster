@@ -2,10 +2,11 @@ import React from 'react'
 import { Nav } from 'react-bootstrap'
 import { Link, NavLink,  } from 'react-router-dom'
 import { ButtonSearch, FormSearch, InputSearch,Categorias } from '../styles/Style'
+import ProfileButon from './ProfileButon'
 
-const BarraNav = ({seccion,estadoSearch}) => {
+const BarraNav = ({seccion,estadoSearch, logged}) => {
 
-    console.log(seccion);
+    
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -30,31 +31,40 @@ const BarraNav = ({seccion,estadoSearch}) => {
                         <img src="https://res.cloudinary.com/andrestaborda/image/upload/v1638995924/BlockMasterLogo_1_avst1e.svg"
                         width="106px" alt=''/>
                     </Link> 
-                    <Categorias className="nav-item ">
-                        <NavLink
-                            name="Todas las peliculas"
-                            className="nav-link text-white"
-                            to="/"
-                            onClick={handleClick}
-                        >Todas</NavLink>
-                    </Categorias>
-                    <Categorias className="nav-item ">
+                    <div className="nav-item ms-5 ">
+                        {/* preguntar  */}
+                        <Link to="/" className="nav-link">
+                            <NavLink
+                                name="Todas las peliculas"
+                                className="nav-link text-white"
+                                to="/"
+                                onClick={handleClick}
+                            >Todas</NavLink>
+                        </Link>
+                    </div>
+                    <div className="nav-item ms-5 ">
                         <NavLink
                         name="Peliculas más valoradas"
                         className="nav-link text-white"
-                        to="/Peliculas"
+                        to="/"
                          onClick={handleClick}
                         >Mas Valoradas</NavLink>
-                    </Categorias>
-                    <Categorias className="nav-item ">
+                    </div>
+                    <div className="nav-item ms-5 ">
                         <NavLink
                         name="Peliculas menos valoradas"
                         className="nav-link text-white"
-                        to="/Peliculas"
+                        to="/"
                         onClick={handleClick}
                         >Menos Valoradas</NavLink>
-                    </Categorias>         
-                </Categorias>         
+                    </div> 
+                    <div className="nav-item ms-5 ">
+                        {  logged &&
+                            <Link to="/ViewLater" className="nav-link text-light align-self-center">Ver despues</Link> 
+                        }         
+                    </div>
+                </Categorias> 
+                       
                 <FormSearch className="d-flex " onSubmit={handleSubmit}>
                     <InputSearch
                     type="text"
@@ -66,10 +76,25 @@ const BarraNav = ({seccion,estadoSearch}) => {
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                         </svg>
                     </ButtonSearch>
-                </FormSearch>
+                </FormSearch> 
 
-                <Link to="/SignIn" className="nav-link text-light align-self-center">Sign In</Link>
-                <Link to="/SignUp" className="nav-link text-light align-self-center">Sign Up</Link> 
+                
+
+                { ! logged &&                   
+                    <Link to="/SignIn" className="nav-link text-light align-self-center">Sign In</Link>                        
+                }
+                { ! logged &&
+                    <Link to="/SignUp" className="nav-link text-light align-self-center">Sign Up</Link> 
+                }
+                {  logged &&
+                    <ProfileButon/>
+                }
+                    
+               
+
+              
+                
+                
                               
             </Nav>
         </div>

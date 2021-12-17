@@ -151,3 +151,45 @@ export const InputSearch = styled.input`
     padding:10px;
     border:none;
 `
+/*Login*/
+
+export const LoginContainer = styled.div`
+
+    max-width: 20%;
+    margin: 180px auto;
+
+`
+
+/*Profile */
+
+export const ProfileContect = styled.div`
+    color:#ffff;
+    align-self:center;
+    margin-left:40px;
+
+    & ul{
+        list-style: none;
+        display: contents;
+    }
+    & ul ul {
+        text-align:center;
+        padding:20px 5px;
+        display:none;
+        position:absolute;
+        right:25px;
+        top:80px;
+        border-radius:5px;
+        z-index:1;
+    }
+    & ul:hover ul{
+        background-color:rgba(255,255,255,0.2);
+        display: block;
+    }
+    & button{
+        border: none;
+        border-radius:5px;
+        margin-top:5px;
+        background-color:#FED941;
+    }
+
+`

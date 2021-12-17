@@ -1,82 +1,86 @@
-//inscribirse
-import React, { Component } from 'react'
+import React, { useContext, useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { userUrl } from '../helpers/UrlsApi';
 import axios from 'axios';
+import { LoginContainer } from '../styles/Style';
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext';
 
+const SignUp = () => {
+    const {setLogged} = useContext(AuthContext)
 
-export default class SignUp extends Component {
+    const navigate = useNavigate()
 
-    constructor(){
-        super();
-        this.state = {
-            registro:[],
-            
-        };
-    }
+    const [registro, setRegistro] = useState({
 
-
-    render() {
-
-      
-    const {nombre,apellido,contraseña,email} = this.state.registro;
-
-    const postData = () => {
-        axios.post(userUrl,this.state.registro)
-       .then(response => console.log(response.data))
-       .catch(error => console.log(error))
-        
-    }
-
-
-   const handleChanged = ({target}) => {
-    this.setState({
-      ...this.state.registro,
-      [target.name]: target.value
+        "nombre": '',
+        "apellido": '',
+        "correo": '',
+        "contraseña": '',
+        "verDespues": []
     })
 
+    const {nombre,apellido,correo,contraseña} = registro;
+    
+    const postData = () => {
+        axios.post(userUrl,registro)
+        .then(response => 
+            navigate('/',{
+                replace: true
+            })).then(response => localStorage.setItem("estado", setLogged(true) ))     
+        .catch(error => console.log(error))
+        
     }
-  const handleSubmit = (e) => {
-    e.preventDefault();
-   }
+    
+    const handleChanged = ({target}) => {
+        setRegistro({
+          ...registro,
+          [target.name]: target.value
+        })
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        postData()
+    }
 
 
-
-
-        return (
-            <div>
-                <h1>Registrate</h1>
-                <Form onSubmit={handleSubmit}>
+    return (
+        <>
+            <LoginContainer>
+                <h1 className='text-light'>Registrate</h1>
+                <Form onSubmit={() => handleSubmit()}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Nombre</Form.Label>
-                    <Form.Control type="text" placeholder="Ej: Mazda-Chevrolet-etc" onChange={handleChanged} 
-                    name="nombre" value={nombre} />
+                    <Form.Label className='text-light'>Nombre</Form.Label>
+                    <Form.Control type="text" placeholder="Mario" onChange={handleChanged} 
+                    name="nombre" value={nombre}  required/>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Apellido</Form.Label>
-                    <Form.Control type="text" placeholder="Ej: Aveo GT 2021" onChange={handleChanged}
-                    name="apellido" value={apellido}/>
+                    <Form.Label className='text-light'>Apellido</Form.Label>
+                    <Form.Control type="text" placeholder="Lopez" onChange={handleChanged}
+                    name="apellido" value={apellido} required/>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Correo electronico</Form.Label>
-                    <Form.Control type="email" placeholder="Ej: 15.000.000" onChange={handleChanged}
-                    name="email" value={email}/>
+                    <Form.Label className='text-light'>Correo electronico</Form.Label>
+                    <Form.Control type="email" placeholder="email@ejemplo.com.co" onChange={handleChanged}
+                    name="correo" value={correo} required/>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Ubicacion del Vehiculo</Form.Label>
-                    <Form.Control type="password" placeholder="Ej: Medellín" onChange={handleChanged}
-                    name="contraseña" value={contraseña}/>
+                    <Form.Label className='text-light'>Contraseña</Form.Label>
+                    <Form.Control type="password" placeholder="******" onChange={handleChanged}
+                    name="contraseña" value={contraseña} required/>
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={() => postData()}>
+                <Button variant="primary" type="button" onClick={() => postData()}>
                     Enviar registro
                 </Button>
                 </Form>
-            </div>
-        )
-    }
-}
+            </LoginContainer>
+        </>
+    )
 
+    //onClick={() => postData()}
+}
+export default SignUp

@@ -4,10 +4,6 @@ import { Overley } from '../styles/Style'
 const Modal = ({children, estado}) => {
 
       
-    
-    
-    
-
     return (
         <>
             { estado &&
